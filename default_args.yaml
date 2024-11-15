@@ -1,0 +1,11 @@
+ethereum:
+  participants:
+    - el_type: geth
+      cl_type: lighthouse
+      count: 3
+    # - el_type: geth
+    #   cl_type: teku
+  network_params:
+    network_id: "0x721d9237d9a9"
+  additional_services:
+    - dora
