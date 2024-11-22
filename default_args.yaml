@@ -4,8 +4,11 @@ ethereum:
       cl_type: lighthouse
       count: 3
     # - el_type: geth
-    #   cl_type: teku
+    #   cl_type: teku # fails to run at time of writing
   network_params:
-    network_id: "0x721d9237d9a9"
+    network_id: "0x721d9237d9a9" # random, unused network id
   additional_services:
     - dora
+bootstrap:
+  eth_network_id: 125471332751785 # integer of ethereum.network_params.network_id
+
