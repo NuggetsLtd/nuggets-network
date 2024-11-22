@@ -1,3 +1,3 @@
 #!/bin/bash
 
-kurtosis clean -a && ./start.sh
+./clean.sh && ./start.sh
