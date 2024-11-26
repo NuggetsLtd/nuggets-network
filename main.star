@@ -64,11 +64,68 @@ def run(plan, args):
         field = "code",
         assertion = "==",
         target_value = 0,
-        timeout = "5m",
+        timeout = "15m",
         description = "L1 Starknet Appchain Bootstrapping",
     )
 
     plan.print(l1_bootstrap_result["extract.starknet_contract_address"])
+
+    # docker run -d
+    #   --name madara-client
+    #   -v /tmp/madara:/data
+    #   -p 9944:9944
+    #   --network test
+    #   ghcr.io/madara-alliance/madara:latest
+    #   --full
+    #   --name madara-full
+    #   --base-path /data
+    #   --rpc-cors '*'
+    #   --rpc-external
+    #   --rpc-port 9944
+    #   --l1-endpoint http://192.168.68.114:59551
+
+    
+    # create initial configuration for the Madara sequencer Node
+    SEQUENCER_NODE_CONFIG_PATH = "/data/nuggets_chain_config.yaml"
+    SEQUENCER_NODE_OUTPUT_PATH = "/data/output.json"
+    SEQUENCER_NODE_CONFIG_TEMPLATE = read_file("./resources/nuggets_chain_config.yaml.tmpl")
+    SEQUENCER_NODE_CONFIG_FILES = plan.render_templates(
+        name="nuggets_chain_config",
+        config={
+            "nuggets_chain_config.yaml": struct(
+                template=SEQUENCER_NODE_CONFIG_TEMPLATE,
+                data={
+                    "NAME": "madara-sequencer",
+                    "CHAIN_ID": "SN_PRIVATE",
+                    "ETH_CORE_CONTRACT_ADDRESS": l1_bootstrap_result["extract.starknet_contract_address"],
+                }
+            ),
+        }
+    )
+    sequencer_node_mounted_files = {
+        "/data/": SEQUENCER_NODE_CONFIG_FILES,
+    }
+
+
+    madara_SEQUENCER_node = plan.add_service(
+        name = "madara-sequencer",
+        config = ServiceConfig(
+            # image = "ghcr.io/madara-alliance/madara:latest",
+            image = "nuggetsltd/madara:latest",
+            cmd = [
+              "--sequencer",
+              # "--sync-l1-disabled",
+              # "--no-l1-sync",
+              # "--gas-price=0",
+              "--chain-config-path",
+              SEQUENCER_NODE_CONFIG_PATH,
+              # "--l1-endpoint",
+              # ethereum_module_result.all_participants[0].el_context.rpc_http_url,
+            ],
+            files=sequencer_node_mounted_files,
+        ),
+    )
+
 
     # TODO: Add "Voyager" block explorer: https://sepolia.voyager.online/
     
