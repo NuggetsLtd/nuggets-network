@@ -1,0 +1,59 @@
+# Starknet app chain name & ID
+chain_name: "{{.CHAIN_NAME}}"
+chain_id: "{{.CHAIN_ID}}"
+
+# The URL of the gateway and Feeder Gateway your nodes should sync from (sequencer node)
+feeder_gateway_url: "{{.FEEDER_GATEWAY_URL}}"
+gateway_url: "{{.GATEWAY_URL}}"
+
+# For starknet, this is the STRK ERC-20 contract on starknet
+native_fee_token_address: "{{.NATIVE_FEE_TOKEN_ADDRESS}}"
+
+# For starknet, this is the ETH ERC-20 contract on starknet
+parent_fee_token_address: "{{.PARENT_FEE_TOKEN_ADDRESS}}"
+
+# Most recent Starknet version supported
+latest_protocol_version: "0.13.2"
+
+# /!\ Only used for block production.
+# Target time interval between blocks, in seconds
+block_time: "30s"
+
+# /!\ Only used for block production
+# Block time is divided into "ticks": everytime this duration elapses, the pending block is updated
+pending_block_update_time: "2s"
+
+# /!\ Only used for block production
+# Block production is handled in batches; each batch will pop this number of transactions from the mempool. This is
+# primarily useful for optimistic parallelization
+# A value too high may have a performance impact - you will need some testing to find the best value for your network
+execution_batch_size: 16
+
+# /!\ Only used for block production
+# The bouncer is in charge of limiting block sizes. This is where the max number of step per block, gas etc are
+bouncer_config:
+  block_max_capacity:
+    builtin_count:
+      add_mod: 18446744073709551615
+      bitwise: 18446744073709551615
+      ecdsa: 18446744073709551615
+      ec_op: 18446744073709551615
+      keccak: 18446744073709551615
+      mul_mod: 18446744073709551615
+      pedersen: 18446744073709551615
+      poseidon: 18446744073709551615
+      range_check: 18446744073709551615
+      range_check96: 18446744073709551615
+    gas: 5000000
+    n_steps: 40000000
+    message_segment_length: 18446744073709551615
+    n_events: 18446744073709551615
+    state_diff_size: 131072
+
+# /!\ Only used for block production
+# Address of the sequencer (0x0 for a full node)
+sequencer_address: "{{.SEQUENCER_ADDRESS}}"
+
+# The Starknet core contract address for the L1 watcher
+eth_core_contract_address: "{{.ETH_CORE_CONTRACT_ADDRESS}}"
+eth_gps_statement_verifier: "{{.ETH_GPS_STATEMENT_VERIFIER}}"

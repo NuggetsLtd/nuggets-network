@@ -1,3 +1,3 @@
 #!/bin/bash
 
-kurtosis run --enclave kurtosis-nuggets-network . --args-file=default_args.yaml
+kurtosis run --enclave kurtosis-nuggets-network . --args-file=package_args.yaml
