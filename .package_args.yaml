@@ -1,6 +1,6 @@
 starknet:
-  chain_name: "Starknet Sepolia Demo App Chain"
-  chain_id: "SN_SEPOLIA_DEMO_APP_CHAIN"
+  app_chain_name: "Starknet Sepolia Demo App Chain"
+  app_chain_id: "SN_SEPOLIA_DEMO_APP_CHAIN"
   network: "sepolia"
   infura_api_key: "INFURA_API_KEY"
   sequencer_address: "0x123"
